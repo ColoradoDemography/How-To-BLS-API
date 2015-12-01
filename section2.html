@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset="utf-8">
+        <title>How To Guide to BLS API</title>
+        <link rel="stylesheet" href="style/style.css">
+    </head>
+    <body>
+        <h1>Retrieve Data for Multiple Series</h1>
+        <div class = "cont">
+             <p>Requests for multiple series is similar to requests for single series. It requires an HTTP type, a RESTful URL and series IDs. However, HTTP type for multiple series is POST. Just as a reminder, for single series it is GET. URL for a single series has the format:<code>http://api.bls.gov/publicAPI/v1/timeseries/data</code>. Series IDs will be specified as JSON playload.</p>
+            <p>Lets review the example. We will be requesting Average Price Data of all U.S. cities for two different products for the same period. We will find out the average price for "Bananas, per lb." and "Ham, rump or shank half, bone-in, smoked, per lb.".</p>
+            <pre><code>app.get('/',function(req,res,next){
+  var context = {};
+  request({"url":"http://api.bls.gov/publicAPI/v1/timeseries/data/",
+  "method":"POST",
+  "headers":{"Content-Type":"application/json"},
+  "body":'{"seriesid":["APU0000704311", "APU0000711211"]}'}, 
+  function(err, response, body){
+    if(!err && response.statusCode < 400){
+      context.results = body;
+      res.render('test',context);
+    } else {
+      if(response){
+        console.log(response.statusCode);
+      }
+      next(err);
+    }
+  });
+});</code></pre>
+            <p>We are making a request with the JSON object instead of a single URL. In JSON object, we are including two series IDs APU0000704311 and APU0000711211:</p>
+<pre><code> {"url":"http://api.bls.gov/publicAPI/v1/timeseries/data/",
+  "method":"POST",
+  "headers":{"Content-Type":"application/json"},
+  "body":'{"seriesid":["APU0000704311", "APU0000711211"]}'}</code></pre>
+            <p>The output is quite lengthy. Thus, we only display the part that you can see which includes data for two series:</p>
+            <img src = "style/sec2-1.png" class = "smaller1" alt = "HTML Output"><br>
+            <p>We see that the response includes the following data for bananas and ham:
+             <ul>
+                    <li><code>year</code></li>
+                    <li><code>period</code></li>
+                    <li><code>periodName</code></li>
+                    <li><code>value</code></li>
+                    <li><code>footnotes</code></li>
+            </ul></p>
+            <p>So far, we have seen response data for the past three years. In the next section, we see how to request data for a certain year or years.</p>
+            <a class = "button" href = "section1.html">Prev</a>
+            <a class = "button" href = "section3.html">Next</a><br><br>
+        </div>
+        <div class = "nav">
+            <p>Table of Contents</p>
+            <a href = "main.html">Introduction</a><br>
+            <a href = "section1.html">Section 1. Single Series</a><br>
+            <a href = "section2.html">Section 2. Multiple Series</a><br>
+            <a href = "section3.html">Section 3. Single and Multiple<br>Series, Specifying Years</a><br>
+            <a href = "conclusion.html">Application Example</a>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset="utf-8">
+        <title>How To Guide to BLS API</title>
+        <link rel="stylesheet" href="style/style.css">
+    </head>
+    <body>
+        <h1>Application Example</h1>
+        <div class = "cont">
+            <p>We are going to look at the app that asks a user to enter one series ID and years for which he or she wants to receive data. Then, the app displays requested data in a user friendly form instead of JSON object.</p>
+            <p>First, we create the file "bls.handlebars" that will have the form for entering series ID, the first year, the last year and the template for displaying data:</p>
+            <img src = "style/example1.png" class = "smaller" alt = "HTML Output"><br>
+            <p>Next, we create a file "app.js" where we are using Express module to create an Express application. We have three use calls. One for routes <code>app.use('/', routes);</code> and two for handling errors:</p>
+            <img src = "style/example2.png" alt = "HTML Output"><br>
+            <p>To keep things organized, we write code for routes in a separate file "routes.js":</p>
+            <img src = "style/example3.png" alt = "HTML Output"><br>
+            <p>We have two routes; <code>router.get</code> will load the page and let a user fill the form and <code>router.post</code> makes a request to the BSL API if the submit button is hit. The request is done in the same way as in the previous section. The difference is that now we parse the body of the response <code>var parsedBody = JSON.parse(body)</code>, iterate through parsed body data <code>while(parsedBody.Results.series[0].data[index] != undefined)</code> in order to get data that we want to display in the table (year, month, value).</p>
+            <p>If we run our app, we get the following resulting page with average prices for series ID APU0000704311 (ham) 2011-2012:</p>
+            <img src = "style/example.png" class = "smaller" alt = "HTML Output"><br><br><br>
+            <p>That is for now. Hopefully, this guide has helped you get started using the BSL API.</p>
+            <a class = "button" href = "section3.html">Prev</a><br><br>
+        </div>
+        <div class = "nav">
+            <p>Table of Contents</p>
+            <a href = "main.html">Introduction</a><br>
+            <a href = "section1.html">Section 1. Single Series</a><br>
+            <a href = "section2.html">Section 2. Multiple Series</a><br>
+            <a href = "section3.html">Section 3. Single and Multiple<br>Series, Specifying Years</a><br>
+            <a href = "conclusion.html">Application Example</a>
+        </div>
+    </body>
+</html>

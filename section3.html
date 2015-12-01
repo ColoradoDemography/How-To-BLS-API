@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset="utf-8">
+        <title>How To Guide to BLS API</title>
+        <link rel="stylesheet" href="style/style.css">
+    </head>
+    <body>
+        <h1>Retrieve Data for Series, Specifying Years</h1>
+        <div class = "cont">
+            <p>To retrieve data for certain years and for certain series, we need to make POST request to <code>http://api.bls.gov/publicAPI/v1/timeseries/data/</code>. It is very similar to requesting data for multiple series. However, additionally in JSON object we include years. Here is how the JSON object will look:</p>
+            <pre><code>{"url":"http://api.bls.gov/publicAPI/v1/timeseries/data/",
+  "method":"POST",
+  "headers":{"Content-Type":"application/json"},
+  "body":'{"seriesid":["APU0000704311", "APU0000711211"],
+  "startyear":"2012", "endyear":"2012"}</code></pre>
+            <p>It is important to keep square brackets even if you include only one series ID. For example, <code>"body":'{"seriesid":["APU0000704311"].</code> Otherwise, you get the error message that the request failed.</p>
+            <p>Request code looks the same as in the previous section with a modified JSON object:</p>
+            <pre><code>app.get('/',function(req,res,next){
+  var context = {};
+  
+  request({
+  "url":"http://api.bls.gov/publicAPI/v1/timeseries/data/",
+  "method":"POST",
+  "headers":{"Content-Type":"application/json"},
+  "body":'{"seriesid":["APU0000704311", "APU0000711211"], "startyear":"2012", "endyear":"2012"}'}, function(err, response, body){
+    if(!err && response.statusCode < 400){
+      context.results = body;
+      res.render('test',context);
+    } else {
+      if(response){
+        console.log(response.statusCode);
+      }
+      next(err);
+    }
+  });
+});</code></pre>
+            <p>We have average prices for ham and bananas for 2012:</p>
+            <img src = "style/sec3-1.png" class = "smaller1" alt = "HTML Output"><br>
+            <p>We are familiar with retriving data from the BLS API. In the next section, we look at the small web application example that involves making a request to the BLS API.</p>
+            <a class = "button" href = "section2.html">Prev</a>
+            <a class = "button" href = "conclusion.html">Next</a><br><br>
+        </div>
+        <div class = "nav">
+            <p>Table of Contents</p>
+            <a href = "main.html">Introduction</a><br>
+            <a href = "section1.html">Section 1. Single Series</a><br>
+            <a href = "section2.html">Section 2. Multiple Series</a><br>
+            <a href = "section3.html">Section 3. Single and Multiple<br>Series, Specifying Years</a><br>
+            <a href = "conclusion.html">Application Example</a>
+        </div>
+    </body>
+</html>
