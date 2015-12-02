@@ -3,7 +3,7 @@ body {
     font-size: 16px;
     margin-top: 10px;
     margin-bottom: 100px;
-    width:65%;
+    width:75%;
     margin-right: auto;
     margin-left: auto;
     color:#333;
@@ -11,7 +11,7 @@ body {
 }
 
 .cont {
-    width: 65%;
+    width: 60%;
     float: left;
 }
 
